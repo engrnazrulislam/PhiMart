@@ -31,6 +31,7 @@ User = get_user_model()
 
 # ProductImageSerializer for ProductImage Model
 class ProductImageSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField()
     class Meta:
         model = ProductImage
         fields = ['id','image']

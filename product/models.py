@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator, FileExtensionValidator
 from product.validators import validate_file_size
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 class Category(models.Model):
@@ -31,7 +32,8 @@ class Product(models.Model):
 # Model for Product Image
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(upload_to="products/images/", validators=[validate_file_size]) # Due to required field, do not use blank=true, null=true
+    # image = models.ImageField(upload_to="products/images/", validators=[validate_file_size]) # Due to required field, do not use blank=true, null=true
+    image = CloudinaryField('image') # ('image') দ্বারা বুঝায় আমরা কোন নামে image রাখবো।
     #কি ভাবে file নিয়ে কাজ করতে হয়। এখানে তা দেখানো হলো। আমাদের প্রজেক্টে only image নিয়ে কাজ হবে
     #তাই এট আমরা কমেন্ট করে দিলাম।
     # file = models.FileField(upload_to="product/files", validators=FileExtensionValidator(['pdf']))
