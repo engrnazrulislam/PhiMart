@@ -35,7 +35,7 @@ class ProductViewSet(ModelViewSet):
     # queryset = Product.objects.all()
     serializer_class = ProductSerializer
     # DjangoFilterBackend ব্যবহার করে product filtering করা।
-    queryset = Product.objects.all()
+    # queryset = Product.objects.all() # এর পরিবর্তে আমরা method ব্যবহার করেছি।
     #জ্যাংগু ফিল্টার ব্যবহার করে ফিল্টারিং করা
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     # filterset_fields = ['category_id','price']
@@ -49,6 +49,9 @@ class ProductViewSet(ModelViewSet):
     # কারা কারা product দেখতে পারবে এবং কারা কারা product add করতে পারবে।
     # permission_classes = [IsAdminUser]
     permission_classes = [IsAdminOrReadOnly]
+
+    def get_queryset(self):
+        return Product.objects.prefetch_related('images').all()
 
     @swagger_auto_schema(
         operation_summary="Retrive a lists of products"
